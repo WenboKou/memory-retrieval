@@ -14,6 +14,15 @@ def normalize_L2(data):
     return data / np.linalg.norm(data, axis=1, keepdims=True)
 
 
+def get_db(file_path="db.json"):
+    if os.path.exists(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            db = json.load(file)
+    else:
+        db = {}
+    return db
+
+
 def text2embedding(texts):
     """
 
@@ -76,7 +85,12 @@ def search_db_topk(query, index, db, k=5):
         print(f"{i}对应的文本：", db.get(i))
 
 
-index = faiss.IndexFlatIP(EMBEDDING_DIMENSION)  # 使用 Faiss 构建索引，这里使用 IndexFlatIP 来计算点积，相当于余弦相似度
-db = {}
+index = faiss.IndexFlatIP(EMBEDDING_DIMENSION)
+db = get_db()
+
 add_texts_to_db(["ddddd", "aaaaa"], index, db)
 search_db_topk("ddddddddd", index, db, k=5)
+
+# 1. 加一下读取db的代码 ——done
+# 2. 加一下读取faiss和保存faiss的代码
+# 3. 引入gradio，做对话
