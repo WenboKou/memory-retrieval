@@ -97,11 +97,20 @@ def search_db_topk(query, index, db, k=5):
         print(f"{i}对应的文本：", db.get(str(i)))
 
 
+def delete_db(index_path="memory.index", db_path="db.json"):
+    def delete_file_if_exist(file_path):
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except Exception as e:
+                print(f"删除文件时发生错误：{e}")
+
+    delete_file_if_exist(index_path)
+    delete_file_if_exist(db_path)
+
 # index = get_index()
 #
 # db = get_db()
 #
 # add_texts_to_db(["ddddd", "aaaaa"], index, db)
 # search_db_topk("ddddddddd", index, db, k=5)
-
-

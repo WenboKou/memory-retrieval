@@ -5,18 +5,19 @@ from function_call import call_with_messages
 
 # 初始化对话模型
 
-db = get_db()
-index = get_index()
+DB = get_db()
+INDEX = get_index()
 
 
-def get_response(user_input, chat_history):
+def get_response(user_input, chat_history, index=INDEX, db=DB):
     # 将用户输入和历史对话拼接，以便模型理解上下文
     prompt = user_input + "\n" + "\n".join([f"{msg[0]}: {msg[1]}" for msg in chat_history])
     print(prompt)
     response = call_with_messages(user_input, index, db)
+    if response == "好的，已经帮您清空记忆。":
+        db = get_db()
+        index = get_index()
 
-    # 解析模型回复，假设回复总是在最后，这取决于模型
-    # 注意：对于实际聊天模型，这一步可能需要更复杂的逻辑来提取回复
     generated_reply = response
 
     # 添加到对话历史并返回最新的对话历史和回复

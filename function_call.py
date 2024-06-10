@@ -3,7 +3,7 @@ import os
 
 import requests
 
-from db_client import add_texts_to_db
+from db_client import add_texts_to_db, delete_db
 
 # 定义工具列表，模型在选择使用哪个工具时会参考工具的name和description
 tools = [
@@ -13,6 +13,15 @@ tools = [
         "function": {
             "name": "remember_anything",
             "description": "当用户需要你记住任何事情时都非常有用，如用户输入中有'帮我记一下'、'记一下'等关键词时，就代表你需要使用这个工具。",
+            "parameters": {}
+        }
+    },
+    # 工具2 删除记忆
+    {
+        "type": "function",
+        "function": {
+            "name": "delete_memory",
+            "description": "当用户需要你删除或清空记忆时非常有用，如用户输入中有'帮我删除记忆'、'清空记忆'等关键词时，就代表你需要使用这个工具。",
             "parameters": {}
         }
     }
@@ -61,6 +70,9 @@ def call_with_messages(content, index, db):
         add_texts_to_db(messages[-2]["content"], index, db)
 
         return "好的，已经帮您记下来了。"
+    elif assistant_output["tool_calls"][0]["function"]["name"] == "delete_memory":
+        delete_db()
+        return "好的，已经帮您清空记忆。"
     else:
         return "出错了"
 
