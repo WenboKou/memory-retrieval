@@ -94,3 +94,4 @@ search_db_topk("ddddddddd", index, db, k=5)
 # 1. 加一下读取db的代码 ——done
 # 2. 加一下读取faiss和保存faiss的代码
 # 3. 引入gradio，做对话
+
