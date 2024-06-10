@@ -90,11 +90,14 @@ def add_texts_to_db(texts, index, db):
 def search_db_topk(query, index, db, k=5):
     embedding = text2embedding([query])[0]
     distances, indices = index.search(normalize_L2(embedding["embedding"]), k)
-    print("距离：", distances)
-    print("索引：", indices)
-    print("索引数量：", index.ntotal)
-    for i in indices[0]:
-        print(f"{i}对应的文本：", db.get(str(i)))
+    output = []
+    for i, distance in zip(indices[0], distances[0]):
+        output.append({
+            "text": db.get(str(i)),
+            "cosine_similarity": distance,
+            "index": i
+        })
+    return output
 
 
 def delete_db(index_path="memory.index", db_path="db.json"):
