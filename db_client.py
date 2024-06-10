@@ -94,13 +94,11 @@ def search_db_topk(query, index, db, k=5):
         print(f"{i}对应的文本：", db.get(str(i)))
 
 
-index = get_index()
+# index = get_index()
+#
+# db = get_db()
+#
+# add_texts_to_db(["ddddd", "aaaaa"], index, db)
+# search_db_topk("ddddddddd", index, db, k=5)
 
-db = get_db()
 
-add_texts_to_db(["ddddd", "aaaaa"], index, db)
-search_db_topk("ddddddddd", index, db, k=5)
-
-# 1. 加一下读取db的代码 —— done
-# 2. 加一下读取faiss和保存faiss的代码 —— done
-# 3. 引入gradio，做对话
