@@ -63,17 +63,20 @@ def text2embedding(texts):
     # 检查请求是否成功
     if not response.status_code == 200:
         print("Failed with status code:", response.status_code)
+        print("Failed detail:", response.json())
     return response.json()["output"]["embeddings"]
 
 
 def add_texts_to_db(texts, index, db):
     """
     将文本转换为向量，并存储到向量数据库和db中
-    :param texts: 文本列表
+    :param texts: 文本列表，[text0, ...]
     :param index: 向量数据库
     :param db: ["0": text0, ...]
     :return:
     """
+    if not isinstance(texts, list):
+        texts = [texts]
     embeddings = text2embedding(texts)
     for text, embedding in zip(texts, embeddings):
         db[str(index.ntotal)] = text
